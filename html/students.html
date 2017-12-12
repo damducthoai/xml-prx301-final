@@ -4,20 +4,96 @@
     <meta charset="UTF-8">
     <title>Student Management System</title>
 
-
+    <script>
+        function deleteStudentById(id) {
+            var studentDOMObj = document.getElementById(id);
+            document.getElementById("studenttable").removeChild(studentDOMObj);
+        }
+        function createTempStudent() {
+            let student = new Object();
+            student.code = "test";
+            student.name = "Test";
+            student.classCode = "XXX";
+            student.age = 20;
+            bindingStudent2View(student);
+        }
+    </script>
 </head>
 <body>
-    <table id="studenttable">
-        <tr>
-            <th>Code</th>
-            <th>Name</th>
-            <th>Class</th>
-            <th>Age</th>
-        </tr>
-    </table>
+<table id="studenttable" border="1">
+    <tr>
+        <th>Code</th>
+        <th>Name</th>
+        <th>Class</th>
+        <th>Age</th>
+        <th>Action</th>
+    </tr>
+
+</table>
+<hr>
+<table>
+    <tr>
+        <th>
+            <input type="text" id="stName" placeholder="Enter student name here"/>
+        </th>
+        <th>
+            <input type="text" id="stClass" placeholder="Enter student class"/>
+        </th>
+        <th>
+            <input type="number" id="stAge" placeholder="Enter student age"/>
+        </th>
+        <th>
+            <input type="button" value="Add new student" onclick="createTempStudent()"/>
+        </th>
+    </tr>
+</table>
 </body>
 <!--more info at: https://www.w3schools.com/xml/ajax_intro.asp-->
 <script type="application/javascript">
+
+    function bindingStudent2View(student) {
+        var x = document.createElement("tr");
+        x.setAttribute("id", student.code);
+
+        // td element
+        var codeX = document.createElement("td");
+        var nameX = document.createElement("td");
+        var classX = document.createElement("td");
+        var ageX = document.createElement("td");
+
+        var delX = document.createElement("td");
+        var delButton = document.createElement("input");
+        delButton.setAttribute('type', 'button');
+        delButton.setAttribute('value', 'Delete');
+        delButton.setAttribute('onclick', 'deleteStudentById(\'' + student.code + '\')');
+        delX.appendChild(delButton);
+        //delButton.setAttribute('')
+
+        // text node info
+        var codeNode = document.createTextNode(student.code);
+        var nameNode = document.createTextNode(student.name);
+        var classCodeNode = document.createTextNode(student.classCode);
+        var ageNode = document.createTextNode(student.age);
+
+
+        // binding data to td element
+        codeX.appendChild(codeNode);
+        nameX.appendChild(nameNode);
+        classX.appendChild(classCodeNode);
+        ageX.appendChild(ageNode);
+
+        x.appendChild(codeX);
+        x.appendChild(nameX);
+        x.appendChild(classX);
+        x.appendChild(ageX);
+
+        x.appendChild(delX);
+
+        let table = document.getElementById("studenttable");
+
+        table.appendChild(x);
+    }
+
     let url = 'http://localhost:8080/students';
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
@@ -25,34 +101,7 @@
             let res = JSON.parse(this.response);
             res.forEach(function (student) {
                 console.log(student);
-                var x = document.createElement("tr");
-
-                // td element
-                var codeX = document.createElement("td");
-                var nameX = document.createElement("td");
-                var classX = document.createElement("td");
-                var ageX = document.createElement("td");
-
-                // text node info
-                var codeNode = document.createTextNode(student.code);
-                var nameNode = document.createTextNode(student.name);
-                var classCodeNode = document.createTextNode(student.classCode);
-                var ageNode = document.createTextNode(student.age);
-
-                // binding data to td element
-                codeX.appendChild(codeNode);
-                nameX.appendChild(nameNode);
-                classX.appendChild(classCodeNode);
-                ageX.appendChild(ageNode);
-
-                x.appendChild(codeNode);
-                x.appendChild(nameX);
-                x.appendChild(classX);
-                x.appendChild(ageX);
-
-                let table = document.getElementById("studenttable");
-
-                table.appendChild(x);
+                bindingStudent2View(student);
             });
         }
     };
