@@ -17,6 +17,33 @@
             student.age = 20;
             bindingStudent2View(student);
         }
+        function createNewStudent() {
+            let name = document.getElementById("stName").value;
+            let classCode = document.getElementById("stClass").value;
+            let age = parseInt(document.getElementById("stAge").value);
+
+            let student = new Object();
+            student.code = "xxx";
+            student.name = name;
+            student.classCode = classCode;
+            student.age = age;
+
+            let json = JSON.stringify(student);
+            console.log(json);
+            //bindingStudent2View(student);
+
+            let url = 'http://localhost:8080/students';
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    console.log("create success: " + this.responseText);
+                    bindingStudent2View(JSON.parse(this.response));
+                }
+            };
+            xhttp.open("POST", url, true);
+            xhttp.setRequestHeader('Content-Type', 'application/json');
+            xhttp.send(json);
+        }
     </script>
 </head>
 <body>
@@ -43,7 +70,7 @@
             <input type="number" id="stAge" placeholder="Enter student age"/>
         </th>
         <th>
-            <input type="button" value="Add new student" onclick="createTempStudent()"/>
+            <input type="button" value="Add new student" onclick="createNewStudent()"/>
         </th>
     </tr>
 </table>
