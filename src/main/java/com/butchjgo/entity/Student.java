@@ -13,7 +13,7 @@ public class Student {
     private String name;
     @NotNull
     private String classCode;
-    @Min(6)
+    @Min(1)
     private int age;
 
     public Student() {
