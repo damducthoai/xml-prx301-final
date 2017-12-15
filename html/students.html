@@ -3,10 +3,208 @@
 <head>
     <meta charset="UTF-8">
     <title>Student Management System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.css"/>
+    <!--more info at: https://codepen.io/alassetter/full/cyrfB/ && https://codepen.io/anon/pen/vpOzWG-->
+    <style>
+        @import url(https://fonts.googleapis.com/css?family=Roboto:400,500,700,300,100);
 
+        .action-button:active {
+            transform: translate(0px, 5px);
+            -webkit-transform: translate(0px, 5px);
+            border-bottom: 1px solid;
+        }
+
+        .red {
+            background-color: #E74C3C;
+            border-bottom: 5px solid #BD3E31;
+            text-shadow: 0px -2px #BD3E31;
+        }
+
+        .blue {
+            background-color: #3498DB;
+            border-bottom: 5px solid #2980B9;
+            text-shadow: 0px -2px #2980B9;
+        }
+
+        .action-button {
+            position: relative;
+            padding: 10px 40px;
+            margin: 0px 5px 5px 0px;
+            float: left;
+            border-radius: 5px;
+            font-family: 'Pacifico', cursive;
+            font-size: 15px;
+            color: #FFF;
+            text-decoration: none;
+        }
+
+        .animate {
+            transition: all 0.1s;
+            -webkit-transition: all 0.1s;
+        }
+
+        body {
+            background-color: #3e94ec;
+            font-family: "Roboto", helvetica, arial, sans-serif;
+            font-size: 16px;
+            font-weight: 400;
+            text-rendering: optimizeLegibility;
+        }
+
+        div.table-title {
+            display: block;
+            margin: auto;
+            max-width: 600px;
+            padding: 5px;
+            width: 100%;
+        }
+
+        .table-title h3 {
+            color: #fafafa;
+            font-size: 30px;
+            font-weight: 400;
+            font-style: normal;
+            font-family: "Roboto", helvetica, arial, sans-serif;
+            text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.1);
+            text-transform: uppercase;
+        }
+
+        /*** Table Styles **/
+
+        .table-fill {
+            background: white;
+            border-radius: 3px;
+            border-collapse: collapse;
+            height: auto;
+            margin: auto;
+            max-width: 600px;
+            padding: 5px;
+            width: 100%;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+            animation: float 5s infinite;
+        }
+
+        th {
+            color: #D5DDE5;;
+            background: #1b1e24;
+            border-bottom: 4px solid #9ea7af;
+            border-right: 1px solid #343a45;
+            font-size: 23px;
+            font-weight: 100;
+            padding: 24px;
+            text-align: left;
+            text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+            vertical-align: middle;
+        }
+
+        th:first-child {
+            border-top-left-radius: 3px;
+        }
+
+        th:last-child {
+            border-top-right-radius: 3px;
+            border-right: none;
+        }
+
+        tr {
+            border-top: 1px solid #C1C3D1;
+            border-bottom-: 1px solid #C1C3D1;
+            color: #666B85;
+            font-size: 16px;
+            font-weight: normal;
+            text-shadow: 0 1px 1px rgba(256, 256, 256, 0.1);
+        }
+
+        tr:hover td {
+            background: #4E5066;
+            color: #FFFFFF;
+            border-top: 1px solid #22262e;
+        }
+
+        tr:first-child {
+            border-top: none;
+        }
+
+        tr:last-child {
+            border-bottom: none;
+        }
+
+        tr:nth-child(odd) td {
+            background: #EBEBEB;
+        }
+
+        tr:nth-child(odd):hover td {
+            background: #4E5066;
+        }
+
+        tr:last-child td:first-child {
+            border-bottom-left-radius: 3px;
+        }
+
+        tr:last-child td:last-child {
+            border-bottom-right-radius: 3px;
+        }
+
+        td {
+            background: #FFFFFF;
+            padding: 20px;
+            text-align: left;
+            vertical-align: middle;
+            font-weight: 300;
+            font-size: 18px;
+            text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.1);
+            border-right: 1px solid #C1C3D1;
+        }
+
+        td:last-child {
+            border-right: 0px;
+        }
+
+        th.text-left {
+            text-align: left;
+        }
+
+        th.text-center {
+            text-align: center;
+        }
+
+        th.text-right {
+            text-align: right;
+        }
+
+        td.text-left {
+            text-align: left;
+        }
+
+        td.text-center {
+            text-align: center;
+        }
+
+        td.text-right {
+            text-align: right;
+        }
+
+        tr {
+            max-height: 10px;
+        }
+
+        #create-table {
+            margin: auto;
+        }
+
+        input[type=text], input[type=number] {
+            padding: 12px 20px;
+            margin: 8px auto;
+            display: inline-block;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            width: 100%;
+        }
+    </style>
     <script>
         function deleteStudentById(id) {
-            let url = 'http://localhost:8080/students/'+id;
+            let url = 'http://localhost:8080/students/' + id;
             var xhttp = new XMLHttpRequest();
             xhttp.onreadystatechange = function () {
                 if (this.readyState == 4 && this.status == 200) {
@@ -21,6 +219,7 @@
             //xhttp.setRequestHeader('Content-Type', 'application/json');
             xhttp.send();
         }
+
         function createTempStudent() {
             let student = new Object();
             student.code = "test";
@@ -29,11 +228,24 @@
             student.age = 20;
             bindingStudent2View(student);
         }
+
         function createNewStudent() {
+            let stringpattern = '[a-z]+';
             let name = document.getElementById("stName").value;
             let classCode = document.getElementById("stClass").value;
             let age = parseInt(document.getElementById("stAge").value);
-
+            if(!name.match(stringpattern)){
+                alert("Name required");
+                return;
+            }
+            if(!classCode.match(stringpattern)){
+                alert("Class code required");
+                return;
+            }
+            if(age < 1 || age > 200 || age == '' || isNaN(age)){
+                alert("Age must be a num bigger than 1 and less than 200");
+                return;
+            }
             let student = new Object();
             //student.code = "xxx";
             student.name = name;
@@ -49,6 +261,10 @@
                 if (this.readyState == 4 && this.status == 200) {
                     console.log("create success: " + this.responseText);
                     bindingStudent2View(JSON.parse(this.response));
+
+                    document.getElementById("stName").value = "";
+                    document.getElementById("stClass").value = "";
+                    document.getElementById("stAge").value = "";
                 }
             };
             xhttp.open("POST", url, true);
@@ -59,34 +275,36 @@
     </script>
 </head>
 <body>
-<table id="studenttable" border="1">
-    <tr>
-        <th>Code</th>
-        <th>Name</th>
-        <th>Class</th>
-        <th>Age</th>
-        <th>Action</th>
+<div class="table-title"/>
+<h3>PRX301 final</h3>
+<table id="studenttable" class="table-fill">
+    <tr id="table-header">
+        <th class="text-left">Code</th>
+        <th class="text-left">Name</th>
+        <th class="text-left">Class</th>
+        <th class="text-left">Age</th>
+        <th class="text-left">Action</th>
     </tr>
 
 </table>
 <hr>
-<table>
-    <tr>
-        <th>
-            <input type="text" id="stName" placeholder="Enter student name here"/>
-        </th>
-        <th>
-            <input type="text" id="stClass" placeholder="Enter student class"/>
-        </th>
-        <th>
-            <input type="number" id="stAge" placeholder="Enter student age"/>
-        </th>
-        <th>
-            <input type="button" value="Add new student" onclick="createNewStudent()"/>
-        </th>
-    </tr>
-</table>
+<style>
+    #create-student-form{
+        margin: auto;
+        width: 100%;
+        border: 3px solid darkslategrey;
+        padding: 10px;
+    }
+</style>
+<form action="#" id="create-student-form">
+                <input pattern="" type="text" id="stName" placeholder="Enter student name here"/><br>
+                <input minlength="3" type="text" id="stClass" placeholder="Enter student class"/><br>
+                <input type="number" id="stAge" placeholder="Enter student age" required/><br>
+    <input type="button" value="Add new student" onclick="createNewStudent()"
+           class="action-button shadow animate blue"/>
+</form>
 </body>
+
 <!--more info at: https://www.w3schools.com/xml/ajax_intro.asp & https://developer.mozilla.org/en-US/docs/Web/API/Document/createElement-->
 <script type="application/javascript">
 
@@ -103,6 +321,7 @@
         var delX = document.createElement("td");
         var delButton = document.createElement("input");
         delButton.setAttribute('type', 'button');
+        delButton.setAttribute('class', 'action-button shadow animate red');
         delButton.setAttribute('value', 'Delete');
         delButton.setAttribute('onclick', 'deleteStudentById(\'' + student.code + '\')');
         delX.appendChild(delButton);

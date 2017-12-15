@@ -163,7 +163,11 @@ public class StudentDAO implements DAO<Student> {
 
         Element studentElement = student2XMLElement(student);
 
-        nodeList.item(0).getParentNode().insertBefore(studentElement, nodeList.item(0));
+        document.getDocumentElement().appendChild(studentElement);
+        /*if (nodeList.getLength() < 1) {
+        } else {
+            nodeList.item(0).getParentNode().insertBefore(studentElement, nodeList.item(0));
+        }*/
 
         students.add(student);
 
@@ -185,7 +189,7 @@ public class StudentDAO implements DAO<Student> {
         if (studentNode == null) return;
         document.getDocumentElement().removeChild(studentNode);
         try {
-            saveDocument2File(this.document,xmlPath);
+            saveDocument2File(this.document, xmlPath);
             for (int i = 0; i < students.size(); i++) {
                 if (students.get(i).getCode().equals(id)) {
                     students.remove(i);
