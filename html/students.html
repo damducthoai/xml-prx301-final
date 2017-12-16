@@ -235,11 +235,11 @@
             let classCode = document.getElementById("stClass").value;
             let age = parseInt(document.getElementById("stAge").value);
             if(!name.match(stringpattern)){
-                alert("Name required");
+                alert("Name required & cannot be a number");
                 return;
             }
             if(!classCode.match(stringpattern)){
-                alert("Class code required");
+                alert("Class code required and cannot be a number");
                 return;
             }
             if(age < 1 || age > 200 || age == '' || isNaN(age)){
