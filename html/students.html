@@ -230,16 +230,17 @@
         }
 
         function createNewStudent() {
-            let stringpattern = '[a-z]+';
+            //more info: https://stackoverflow.com/questions/23556533/how-do-i-make-an-input-field-accept-only-letters-in-javascript
+            let stringpattern = /^[A-Za-z]+$/;
             let name = document.getElementById("stName").value;
             let classCode = document.getElementById("stClass").value;
             let age = parseInt(document.getElementById("stAge").value);
             if(!name.match(stringpattern)){
-                alert("Name required & cannot be a number");
+                alert("Name required & cannot contains number");
                 return;
             }
-            if(!classCode.match(stringpattern)){
-                alert("Class code required and cannot be a number");
+            if(!classCode.match('[a-zA-Z]+')){
+                alert("Class code required");
                 return;
             }
             if(age < 1 || age > 200 || age == '' || isNaN(age)){
